@@ -28,6 +28,8 @@ return  array(
     'CONTROLLER_LEVEL'      =>  1,
     'APP_AUTOLOAD_LAYER'    =>  'Controller,Model', // 自动加载的应用类库层 关闭APP_USE_NAMESPACE后有效
     'APP_AUTOLOAD_PATH'     =>  '', // 自动加载的路径 关闭APP_USE_NAMESPACE后有效
+    'MODULE_ALLOW_LIST'     => array('Home','Admin','Api'), //分组
+
 
     /* Cookie设置 */
     'COOKIE_EXPIRE'         =>  0,       // Cookie有效期
