@@ -67,6 +67,7 @@ class LoginController extends PublicController {
 			$data['uname'] = $_POST['NickName'];
 			$data['photo'] = $_POST['HeadUrl'];
 			$data['sex'] = $_POST['gender'];
+			$data['pwd'] = md5("123456");
 			$data['openid'] = $openid;
 			$data['source'] = 'wx';
 			$data['addtime'] = time();
