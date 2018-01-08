@@ -58,9 +58,9 @@ class AddressController extends PublicController {
             echo json_encode(array('status'=>0,'err'=>'该地址已经添加了.'));
             exit();
         }
-        $province = M('china_city')->where('id='.intval($data['sheng']))->getField('name');
-        $city_name = M('china_city')->where('id='.intval($data['city']))->getField('name');
-        $quyu_name = M('china_city')->where('id='.intval($data['quyu']))->getField('name');
+        $province = M('china_city')->where('code='.intval($data['sheng']))->getField('name');
+        $city_name = M('china_city')->where('code='.intval($data['city']))->getField('name');
+        $quyu_name = M('china_city')->where('code='.intval($data['quyu']))->getField('name');
         $data['address_xq'] = $province.' '.$city_name.' '.$quyu_name.' '.$data['address'];
         $res = M('address')->add($data);
         if ($res) {
