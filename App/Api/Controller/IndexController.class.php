@@ -101,7 +101,7 @@ class IndexController extends PublicController {
         // $upload_res=$this->upload();
         $upload_res=$_FILES['pic'];
         $tempfile = file_get_contents($upload_res['tmp_name']);
-        $path = 'Uploads/'.$upload_res['name'];
+        $path = 'Uploads/'.uniqid().array_pop(explode(".", $upload_res['name']));
         $res = file_put_contents($path, $tempfile);
         echo "$res";
         exit();
