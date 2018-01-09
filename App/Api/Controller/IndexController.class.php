@@ -101,9 +101,9 @@ class IndexController extends PublicController {
         $upload_res=$this->upload();
         if($upload_res['flag']=='success'){
             $data['pic']="Uploads/report/".$upload_res['result'];
-            apiResponse("success","上传成功！",$data);
+            $this -> apiResponse("success","上传成功！",$data);
         }else{
-            apiResponse("error","上传失败！");
+            $this -> apiResponse("error","上传失败！");
         }
     }
 
