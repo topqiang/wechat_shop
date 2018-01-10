@@ -40,14 +40,14 @@ class WxpayController extends Controller{
 		
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();
-		$input->SetBody("蓝果小镇商城商品购买_".trim($order_info['order_sn']));
-		$input->SetAttach("蓝果小镇商城商品购买_".trim($order_info['order_sn']));
+		$input->SetBody("沈阳铁道送票平台".trim($order_info['order_sn']));
+		$input->SetAttach("沈阳铁道送票平台".trim($order_info['order_sn']));
 		$input->SetOut_trade_no($pay_sn);
-		$input->SetTotal_fee(floatval($order_info['amount'])*100);
+		$input->SetTotal_fee(floatval($order_info['price'])*100);
 		$input->SetTime_start(date("YmdHis"));
 		$input->SetTime_expire(date("YmdHis", time() + 3600));
-		$input->SetGoods_tag("蓝果小镇商城商品购买_".trim($order_info['order_sn']));
-		$input->SetNotify_url('https://xxx.xxxx.com/index.php/Api/Wxpay/notify');
+		$input->SetGoods_tag("沈阳铁道送票平台".trim($order_info['order_sn']));
+		$input->SetNotify_url('https://test.kanziqiang.top/index.php/Api/Wxpay/notify');
 		$input->SetTrade_type("JSAPI");
 		$input->SetOpenid($openId);
 		$order = \WxPayApi::unifiedOrder($input);

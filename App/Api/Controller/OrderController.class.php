@@ -20,13 +20,10 @@ class OrderController extends PublicController {
 		}
 
 		$orders=M("order");
-		$orderp=M("order_product");
-		$shangchang = M('shangchang');
-
+		
 		//按条件查询
 		$condition = array();
-		$condition['del'] = 0;
-		$condition['back'] = '0';
+		
 		$condition['uid'] = intval($uid);
 		$condition['status'] = 10;
 		$order_type = trim($_REQUEST['order_type']);
@@ -59,18 +56,12 @@ class OrderController extends PublicController {
 
 		$order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'待评价','50'=>'交易完成','51'=>'交易关闭');
 
-        $order = $orders->where($condition)->order('id desc')->field('id,order_sn,pay_sn,status,price,type,product_num')->limit($pages.',7')->select();
+        $order = $orders->where($condition)->order('id desc')->limit($pages.',7')->select();
 		foreach ($order as $n=>$v){
 			$order[$n]['desc'] = $order_status[$v['status']];
-			$prolist = $orderp->where('order_id='.intval($v['id']))->find();
-			$order[$n]['photo_x'] = __DATAURL__.$prolist['photo_x'];
-			$order[$n]['pid'] = $prolist['pid'];
-			$order[$n]['name'] = $prolist['name'];
-			$order[$n]['price_yh'] = $prolist['price'];
-			$order[$n]['pro_count'] = $orderp->where('order_id='.intval($v['id']))->getField('COUNT(id)');
 		}
 
-        echo json_encode(array('status'=>1,'ord'=>$order,'eachpage'=>$eachpage));
+        echo json_encode(array('status'=>1,'ord'=>$order));
         exit();
 
 	}

@@ -314,7 +314,7 @@ class PaymentController extends PublicController {
 		$data['order_type']=1;
 		$data['imgUrls']=$imgUrls;
 		$data['addtime']=time();
-		$data['status']=0;
+		$data['status']=10;
 		$data['order_sn']=$this->build_order_no();//生成唯一订单号
 
 
