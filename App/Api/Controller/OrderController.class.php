@@ -279,12 +279,11 @@ class OrderController extends PublicController {
 		$order_id = intval($_REQUEST['order_id']);
 		//订单详情
 		$orders=M("order");
-		$product_dp=M("product_dp");
-		$orderp=M("order_product");
+		
 		$id=intval($_REQUEST['id']);
-		$qz=C('DB_PREFIX');	//前缀
+		
 
-		$order_info = $orders->where('id='.intval($order_id.' AND del=0'))->field('id,order_sn,shop_id,status,addtime,price,type,post,tel,receiver,address_xq,remark')->find();
+		$order_info = $orders->where('id='.intval($order_id))->find();
 		if (!$order_info) {
 			echo json_encode(array('status'=>0,'err'=>'订单信息错误.'));
 			exit();
@@ -292,26 +291,13 @@ class OrderController extends PublicController {
 
 		//订单状态
 		$order_status=array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
-		//支付类型
-		$pay_type = array('cash'=>'现金支付','alipay'=>'支付宝','weixin'=>'微信支付');
 
-		$order_info['shop_name'] = M('shangchang')->where('id='.intval($order_info['shop_id']))->getField('name');
-		$order_info['order_status'] = $order_status[$order_info['status']];
-		$order_info['pay_type'] = $pay_type[$order_info['type']];
-		$order_info['addtime'] = date('Y-m-d H:i:s',$order_info['addtime']);
-		$order_info['yunfei'] = 0;
-		if ($order_info['post']) {
-			$order_info['yunfei'] = M('post')->where('id='.intval($order_info['post']))->getField('price');
-		}
-
-		//获取产品
-		$pro = $orderp->where('order_id='.intval($order_info['id']))->select();
-		foreach ($pro as $k => $v) {
-			$pro[$k]['photo_x'] = __DATAURL__.$v['photo_x'];
-		}
 		
+		$order_info['order_status'] = $order_status[$order_info['status']];
+		
+		$order_info['addtime'] = date('Y-m-d H:i:s',$order_info['addtime']);
          
-        echo json_encode(array('status'=>1,'pro'=>$pro,'ord'=>$order_info));
+        echo json_encode(array('status'=>1,'ord'=>$order_info));
         exit();
 	}
 
