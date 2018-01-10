@@ -55,7 +55,7 @@ class OrderController extends PublicController {
 
 		$order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'待评价','50'=>'交易完成','51'=>'交易关闭');
 
-        $order = $orders->where($condition)->order('id desc')->limit($pages*15.',15')->select();
+        $order = $orders->where($condition)->order('id desc')->limit(($pages*15).',15')->select();
 		foreach ($order as $n=>$v){
 			$order[$n]['desc'] = $order_status[$v['status']];
 		}
