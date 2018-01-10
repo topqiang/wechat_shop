@@ -314,6 +314,8 @@ class PaymentController extends PublicController {
 		$data['order_type']=1;
 		$data['imgUrls']=$imgUrls;
 		$data['addtime']=time();
+		$data['utime']=time();
+
 		$data['status']=10;
 		$data['order_sn']=$this->build_order_no();//生成唯一订单号
 		$result = $order->add($data);
@@ -321,7 +323,7 @@ class PaymentController extends PublicController {
 			$arr = array();
 			$arr['order_id'] = $result;
 			$arr['order_sn'] = $data['order_sn'];
-			
+
 			echo json_encode(array('status'=>1,'arr'=>$arr));
 		}else{
 			echo json_encode(array('status'=>1,'arr'=>'失败！'));

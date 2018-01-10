@@ -296,6 +296,8 @@ class OrderController extends PublicController {
 		$order_info['order_status'] = $order_status[$order_info['status']];
 		
 		$order_info['addtime'] = date('Y-m-d H:i:s',$order_info['addtime']);
+		$order_info['utime'] = date('Y-m-d H:i:s',$order_info['utime']);
+		
          
         echo json_encode(array('status'=>1,'ord'=>$order_info));
         exit();
