@@ -52,7 +52,6 @@ class OrderController extends PublicController {
 
 		//获取总页数
         $count = $orders->where($condition)->count();
-        $eachpage=7;
 
 		$order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'待评价','50'=>'交易完成','51'=>'交易关闭');
 
@@ -60,8 +59,11 @@ class OrderController extends PublicController {
 		foreach ($order as $n=>$v){
 			$order[$n]['desc'] = $order_status[$v['status']];
 		}
-
-        echo json_encode(array('status'=>1,'ord'=>$order));
+		if ($order) {
+        	echo json_encode(array('status'=>1,'ord'=>$order));
+		}else{
+        	echo json_encode(array('status'=>0,'ord'=>$orders->getLastsql()));
+		}
         exit();
 
 	}
