@@ -238,6 +238,8 @@ class OrderController extends PublicController {
 	    $orders=M("order");
 	    $order_id=intval($_REQUEST['order_id']);
 	    $data['status'] = 0;
+	    $data['utime'] = time();
+
     	$result = $orders->where('id='.intval($order_id))->save($data);
     	if($result !== false){
 			echo json_encode(array('status'=>1));
