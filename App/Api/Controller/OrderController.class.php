@@ -231,6 +231,24 @@ class OrderController extends PublicController {
 
 
 	//***************************
+	//  取消订单接口
+	//***************************
+	public function cancleorder(){
+		
+	    $orders=M("order");
+	    $order_id=intval($_REQUEST['order_id']);
+	    $data['status'] = 0;
+    	$result = $orders->where('id='.intval($order_id))->save($data);
+    	if($result !== false){
+			echo json_encode(array('status'=>1));
+    		exit();
+		}else{
+			echo json_encode(array('status'=>0,'err'=>'操作失败.'.__LINE__));
+    	exit();
+		}
+	}
+
+	//***************************
 	//  用户订单编辑接口
 	//***************************
 	public function orders_edit(){
