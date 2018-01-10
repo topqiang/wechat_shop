@@ -297,8 +297,12 @@ class OrderController extends PublicController {
 		
 		$order_info['addtime'] = date('Y-m-d H:i:s',$order_info['addtime']);
 		$order_info['utime'] = date('Y-m-d H:i:s',$order_info['utime']);
-
-		$order_info['imgurls'] = explode(",",$order_info['imgurls']);
+		if (!empty($order_info['imgurls'])) {
+			$order_info['imgurls'] = explode(",",$order_info['imgurls']);
+		}else{
+			$order_info['imgurls'] = array();
+		}
+		
 
 		
          
