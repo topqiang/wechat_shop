@@ -288,161 +288,48 @@ class PaymentController extends PublicController {
     // 购物车结算 下订单
     //***********************************
     public function payment(){
-    	$product=M("product");
-		//运费
-		$post = M('post');
+    	$uid =  $_POST['uid'];
+        $senderName =  $_POST['senderName'];
+        $senderPhone =  $_POST['senderPhone'];
+        $senderAddress =  $_POST['senderAddress'];
+        $receiverName =  $_POST['receiverName'];
+        $receiverPhone =  $_POST['receiverPhone'];
+        $receiverAddress =  $_POST['receiverAddress'];
+        $orderId =  $_POST['orderId'];
+        $idNumber =  $_POST['idNumber'];
+        $imgUrls =  $_POST['imgUrls'];
+        $price = 8;
+
 		$order=M("order");
-		$order_pro=M("order_product");
-		$shopping=M('shopping_char');
+		$data['uid']=$uid;
+		$data['receiver']=$receiverName;
+		$data['tel']=$receiverPhone;
+		$data['address_xq']=$receiverAddress;
+		$data['code']=$idNumber;
+		$data['pay_sn']=$orderId;
+		$data['senderName']=$senderName;
+		$data['senderPhone']=$senderPhone;
+		$data['senderAddress']=$senderAddress;
+		$data['price']=$price;
+		$data['order_type']=1;
+		$data['imgUrls']=$imgUrls;
+		$data['addtime']=$addtime;
+		$data['status']=$addtime;
+		$data['order_sn']=$this->build_order_no();//生成唯一订单号
 
-		$uid = intval($_REQUEST['uid']);
-		if (!$uid) {
-			echo json_encode(array('status'=>0,'err'=>'登录状态异常.'));
-			exit();
-		}
 
-		$cart_id = trim($_REQUEST['cart_id'],',');
-		if (!$cart_id) {
-			echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-			exit();
-		}
-
-		//生成订单
-		  try {
-		  	$qz=C('DB_PREFIX');//前缀
-
-		  	$cart_id = explode(',', $cart_id);
-			$shop=array();
-			foreach($cart_id as $ke => $vl){
-				$shop[$ke]=$shopping->where(''.$qz.'shopping_char.uid='.intval($uid).' and '.$qz.'shopping_char.id='.$vl)->join('LEFT JOIN __PRODUCT__ ON __PRODUCT__.id=__SHOPPING_CHAR__.pid')->field(''.$qz.'shopping_char.pid,'.$qz.'shopping_char.num,'.$qz.'shopping_char.shop_id,'.$qz.'shopping_char.buff,'.$qz.'shopping_char.price,'.$qz.'product.price_yh')->find();
-				$num+=$shop[$ke]['num'];
-                if($shop[$ke]['buff']!=''){
-			    	$ozprice+=$shop[$ke]['price']*$shop[$ke]['num'];
-			    }else{
-			    	$shop[$ke]['price']=$shop[$ke]['price_yh'];
-			    	$ozprice+=$shop[$ke]['price']*$shop[$ke]['num'];
-			    }
-			}
-
-			$yunPrice = array();
-			if ($_POST['yunfei']) {
-				$yunPrice = $post->where('id='.intval($_POST['yunfei']))->find();
-			}
-			
-			$data['shop_id']=$shop[$ke]['shop_id'];
-			$data['uid']=intval($uid);
-
-            if(!empty($yunPrice)){
-                $data['post'] = $yunPrice['id'];
-                $data['price']=floatval($ozprice)+$yunPrice['price'];
-			}else{
-                $data['post'] = 0;
-                $data['price']=floatval($ozprice);
-			}
-
-			$data['amount'] = $data['price'];
-			$vid = intval($_POST['vid']);
-			if ($vid) {
-				$vouinfo = M('user_voucher')->where('status=1 AND uid='.intval($uid).' AND vid='.intval($vid))->find();
-				$chk = M('order')->where('uid='.intval($uid).' AND vid='.intval($vid).' AND status>0')->find();
-				if (!$vouinfo || $chk) {
-					//throw new \Exception("此优惠券不可用，请选择其他.".__LINE__);
-					echo json_encode(array('status'=>0,'err'=>'此优惠券不可用，请选择其他.'));
-					exit();
-				}
-				if ($vouinfo['end_time']<time()) {
-					//throw new \Exception("优惠券已过期了.".__LINE__);
-					echo json_encode(array('status'=>0,'err'=>"优惠券已过期了.".__LINE__));
-					exit();
-				}
-				if ($vouinfo['start_time']>time()) {
-					//throw new \Exception("优惠券还未生效.".__LINE__);
-					echo json_encode(array('status'=>0,'err'=>"优惠券还未生效.".__LINE__));
-					exit();
-				}
-				$data['vid'] = intval($vid);
-				$data['amount'] = floatval($data['price'])-floatval($vouinfo['amount']);
-			}
-
-			$data['addtime']=time();
-			$data['del']=0;
-			$data['type']=$_POST['type'];
-			$data['status']=10;
-
-			$adds_id = intval($_POST['aid']);
-			if (!$adds_id) {
-				throw new \Exception("请选择收货地址.".__LINE__);
-			}
-			$adds_info = M('address')->where('id='.intval($adds_id))->find();
-			$data['receiver']=$adds_info['name'];
-			$data['tel']=$adds_info['tel'];
-			$data['address_xq']=$adds_info['address_xq'];
-			$data['code']=$adds_info['code'];
-			$data['product_num']=$num;
-			$data['remark']=$_REQUEST['remark'];
-			$data['order_sn']=$this->build_order_no();//生成唯一订单号
-
-			$result = $order->add($data);
-		    if($result){
-	            //$prid = explode(",", $_POST['ids']);
-			    foreach($cart_id as $key => $var){
-					$shops[$key]=$shopping->where(''.$qz.'shopping_char.uid='.intval($uid).' and '.$qz.'shopping_char.id='.intval($var))->join('LEFT JOIN __PRODUCT__ ON __PRODUCT__.id=__SHOPPING_CHAR__.pid')->field(''.$qz.'shopping_char.pid,'.$qz.'shopping_char.num,'.$qz.'shopping_char.shop_id,'.$qz.'shopping_char.buff,'.$qz.'shopping_char.price,'.$qz.'product.name,'.$qz.'product.photo_x,'.$qz.'product.price_yh,'.$qz.'product.num as pnum')->find();
-				    if($shops[$key]['buff']=='' || !$shops[$key]['buff']){
-				    	$shops[$key]['price']=$shops[$key]['price_yh'];
-				    }
-
-			        $buff_text='';
-					if($shops[$key]['buff']){
-					   //验证属性
-						$buff = explode(',',$shops[$key]['buff']);
-						if(is_array($buff)){
-							foreach($buff as $keys => $val){
-								$ggid=M("guige")->where('id='.intval($val))->getField('name');
-								$buff_text .= $ggid.' ';
-							};
-						}
-					}
-
-					$date = array();
-			        $date['pid']=$shops[$key]['pid'];
-					$date['name']=$shops[$key]['name'];
-			        $date['order_id']=$result;
-					$date['price']=$shops[$key]['price'];
-					$date['photo_x']=$shops[$key]['photo_x'];
-					$date['pro_buff']=trim($buff_text,' ');
-					$date['addtime']=time();
-					$date['num']=$shops[$key]['num'];
-					$date['pro_guige']='';
-					$res = $order_pro->add($date);
-					if (!$res) {
-						throw new \Exception("下单 失败！".__LINE__);
-					}
-					//检查产品是否存在，并修改库存
-					$check_pro = $product->where('id='.intval($date['pid']).' AND del=0 AND is_down=0')->field('num,shiyong')->find();
-					$up = array();
-					$up['num'] = intval($check_pro['num'])-intval($date['num']);
-					$up['shiyong'] = intval($check_pro['shiyong'])+intval($date['num']);
-					$product->where('id='.intval($date['pid']))->save($up);
-	            	//echo  $product->getLastSql();
-	            	//删除购物车数据
-	            	$shopping->where('uid='.intval($uid).' AND id='.intval($var))->delete();
-					
-				}
-			}else{
-				throw new \Exception("下单 失败！");
-			}
-		  } catch (Exception $e) {
-		  	echo json_encode(array('status'=>0,'err'=>$e->getMessage()));
-		  	exit();
-		  }
-		  
-		    //把需要的数据返回
+		$result = $order->add($data);
+		if ($result) {
 			$arr = array();
 			$arr['order_id'] = $result;
 			$arr['order_sn'] = $data['order_sn'];
-			$arr['pay_type'] = $_POST['type'];
+
 			echo json_encode(array('status'=>1,'arr'=>$arr));
-			exit();	
+		}else{
+			echo json_encode(array('status'=>1,'arr'=>'失败！'));
+		}
+		
+		exit();	
     }
 
     //****************************
