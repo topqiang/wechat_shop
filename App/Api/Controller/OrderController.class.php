@@ -25,7 +25,6 @@ class OrderController extends PublicController {
 		$condition = array();
 		
 		$condition['uid'] = intval($uid);
-		$condition['status'] = 10;
 		$order_type = trim($_REQUEST['order_type']);
 		if ($order_type) {
 			switch ($order_type) {
