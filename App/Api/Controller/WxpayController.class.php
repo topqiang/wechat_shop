@@ -63,7 +63,7 @@ class WxpayController extends Controller{
 		$str = $this->ToUrlParams($arr);
 		$jmstr = $str."&key=".\WxPayConfig::KEY;
 		$arr['paySign'] = strtoupper(MD5($jmstr));
-		echo json_encode(array('status'=>1,'arr'=>$order));
+		echo json_encode(array('status'=>1,'arr'=>$arr));
 		exit();
 		//获取共享收货地址js函数参数
 		//$editAddress = $tools->GetEditAddressParameters();
