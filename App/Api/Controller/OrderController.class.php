@@ -62,7 +62,7 @@ class OrderController extends PublicController {
 		if ($order) {
         	echo json_encode(array('status'=>1,'ord'=>$order));
 		}else{
-        	echo json_encode(array('status'=>0,'ord'=>[]));
+        	echo json_encode(array('status'=>0,'ord'=>array()));
 		}
         exit();
 
