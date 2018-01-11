@@ -156,6 +156,11 @@ class OrderController extends PublicController{
 			$this->error('订单信息错误.');
 		}
 		
+		$imgUrls = explode(",", $order_info['imgUrls']);
+		if (is_array($imgUrls)) {
+			$order_info['imgUrls'] = $imgUrls;
+		}
+		dump($order_info);
 		$this->assign('order_info',$order_info);
 		$this->display();
 	}
