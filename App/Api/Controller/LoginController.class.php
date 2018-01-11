@@ -3,6 +3,33 @@ namespace Api\Controller;
 use Think\Controller;
 class LoginController extends PublicController {
 
+	//获取用户 openid
+    public function getOpenid(){
+    	$js_code = $_POST['js_code'];
+    	$appId = "wx817aa8e60ed1de45";
+    	$appKey = "03dc466c85c39f33229374c633d58b66";
+    	$url = "https://api.weixin.qq.com/sns/jscode2session?appid=$appId&secret=$appKey&js_code=$js_code&grant_type=authorization_code";
+    	echo $this -> curl("",$url);
+
+    	exit();
+    }
+
+    public function curl($data,$url){
+        $ch = curl_init();
+		$timeout = 5;
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$headers = array(
+        	'content-type:'.'application/json'
+        	);
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+		$file_contents = curl_exec($ch);
+		curl_close($ch);
+        return $file_contents;
+    }
+
 	//***************************
 	//  前台登录接口
 	//***************************
