@@ -31,19 +31,10 @@ class PayController extends PublicController{
 		$pay_type = trim($_REQUEST['pay_type']);
 		$order_sn = trim($_REQUEST['order_sn']);
 
-		$order = M('order')->where("id=".intval($order_id)." AND order_sn='".$order_sn."' AND del=0")->find();
+		$order = M('order')->where("id=".intval($order_id)." AND order_sn='".$order_sn)->find();
 		if (!$order) {
 			echo json_encode(array('status'=>0,'err'=>'订单信息错误.'));
 			exit();
-		}
-		$product=M('order_product')->where("`order_id`=".intval($order['id']))->field('name')->select();
-		$body = '';
-		foreach ($product as $key => $val) {
-			if ($key==0) {
-				$body .=$val['name'];
-			}else{
-				$body .=','.$val['name'];
-			}
 		}
 
 		// 获取支付金额		

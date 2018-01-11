@@ -51,7 +51,7 @@ class WxpayController extends Controller{
 		$input->SetTrade_type("JSAPI");
 		$input->SetOpenid($openId);
 		$order = \WxPayApi::unifiedOrder($input);
-		
+
 		//echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
 		//printf_info($order);
 		$arr = array();
@@ -92,9 +92,9 @@ class WxpayController extends Controller{
 
 		$data = array();
 		$data['order_sn'] = $ret['out_trade_no'];
-		$data['pay_type'] = 'weixin';
-		$data['trade_no'] = $ret['transaction_id'];
-		$data['total_fee'] = $ret['total_fee'];
+		$data['type'] = 'weixin';
+		// $data['trade_no'] = $ret['transaction_id'];
+		// $data['total_fee'] = $ret['total_fee'];
 		$result = $this->orderhandle($data);
 		if (is_array($result)) {
 			$xml = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg>";
@@ -113,15 +113,14 @@ class WxpayController extends Controller{
 	//***************************
 	public function orderhandle($data){
 		$order_sn = trim($data['order_sn']);
-		$pay_type = trim($data['pay_type']);
-		$trade_no = trim($data['trade_no']);
-		$total_fee = floatval($data['total_fee']);
+		$pay_type = trim($data['type']);
+
 		$check_info = M('order')->where('order_sn="'.$order_sn.'"')->find();
 		if (!$check_info) {
 			return "订单信息错误...";
 		}
 
-		if ($check_info['status']<10 || $check_info['back']>'0') {
+		if ($check_info['status']<10) {
 			return "订单异常...";
 		}
 
@@ -131,18 +130,9 @@ class WxpayController extends Controller{
 
 		$up = array();
 		$up['type'] = $pay_type;
-		$up['price_h'] = sprintf("%.2f",floatval($total_fee/100));
 		$up['status'] = 20;
-		$up['trade_no'] = $trade_no;
 		$res = M('order')->where('order_sn="'.$order_sn.'"')->save($up);
 		if ($res) {
-			//处理优惠券
-			if (intval($check_info['vid'])) {
-				$vou_info = M('user_voucher')->where('uid='.intval($check_info['uid']).' AND vid='.intval($check_info['vid']))->find();
-				if (intval($vou_info['status'])==1) {
-					M('user_voucher')->where('id='.intval($vou_info['id']))->save(array('status'=>2));
-				}
-			}
 			return array('status'=>1,'data'=>$data);
 		}else{
 			return '订单处理失败...';

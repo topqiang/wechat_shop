@@ -52,7 +52,7 @@ class OrderController extends PublicController {
 		//获取总页数
         $count = $orders->where($condition)->count();
 
-		$order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'待评价','50'=>'交易完成','51'=>'交易关闭');
+		$order_status = array('0'=>'已取消','10'=>'待付款','20'=>'交易完成');
 
         $order = $orders->where($condition)->order('id desc')->limit(($pages*15).',15')->select();
 		foreach ($order as $n=>$v){
@@ -309,7 +309,7 @@ class OrderController extends PublicController {
 		}
 
 		//订单状态
-		$order_status=array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
+		$order_status=array('0'=>'已取消','10'=>'待付款','20'=>'交易完成');
 
 		
 		$order_info['order_status'] = $order_status[$order_info['status']];
