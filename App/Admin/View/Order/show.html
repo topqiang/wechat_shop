@@ -56,51 +56,61 @@
                 <td>{$pro.pro_buff}</td>
             </tr>-->
         </volist>
+            <tr style="border-bottom:1px solid #b9c9d6;">
+                <td>
+                <ul style="margin-top:15px;  padding-bottom:5px; float:left;">
+                    <li style="padding-top:5px;">
+                        <div>收货人：<?php echo $order_info['receiver']; ?></div>
+                        <div>联系电话：<?php echo $order_info['tel']; ?></div>
+                        <div>收货地址：<?php echo $order_info['address_xq']; ?></div>
+                    </li>
+                </ul>
+                </td>
+                <td>
+                <ul style="margin-top:15px; padding-bottom:5px; float:left;">
+                    <li style="padding-top:5px;">
+                        <div>寄件人：<?php echo $order_info['sendername']; ?></div>
+                        <div>联系电话：<?php echo $order_info['senderphone']; ?></div>
+                        <div>寄件地址：<?php echo $order_info['senderaddress']; ?></div>
+                        <div>身份证：<?php echo $order_info['code']; ?></div>
+                    </li>
+                </ul>
+                </td>
+                <td>
+                <ul style="margin-top:15px; padding-bottom:5px; float:left;">
+                    <li>
+                        <div>支付单号：<?php echo $order_info['order_sn']; ?></div>
+                        <div>订单编号：<?php echo $order_info['pay_sn']; ?></div>
+                        <div>创建时间：{$order_info['addtime']|date='Y-m-d i:m:s',###}</div>
+                        <div>最新修改时间：{$order_info['utime']|date='Y-m-d i:m:s',###}</div>
+
+                    </li>
+                </ul>
+                </td>
+                <td>
+                <ul style="margin-top:15px; padding-bottom:5px; float:left;">
+                    <li>
+                        <div><?php echo $order_info['price']; ?></div>
+                    </li>
+                </ul>
+                </td>
+                <td>
+                <ul style="margin-top:15px; padding-bottom:5px; float:left;">
+                    <li>
+                        <if condition="!empty($order_info['imgUrls'])">
+                        <volist name='$order_info["imgUrls"]' id="img">
+                            <div><img src="{$img}"/></div>
+                        </volist>
+                        </if>
+                    </li>
+                </ul>
+                </td>
+            </tr>
     </table>
 
     <br>
 
-    <div style="border-bottom:1px solid #b9c9d6;">
-        <ul style="margin-top:15px;  padding-bottom:5px; width:300px; float:left;">
-            <li style="padding-top:5px;">
-                <div>收货人：<?php echo $order_info['receiver']; ?></div>
-                <div>联系电话：<?php echo $order_info['tel']; ?></div>
-                <div>收货地址：<?php echo $order_info['address_xq']; ?></div>
-            </li>
-        </ul>
-        <ul style="margin-top:15px; padding-bottom:5px; width:300px; float:left;">
-            <li style="padding-top:5px;">
-                <div>寄件人：<?php echo $order_info['sendername']; ?></div>
-                <div>联系电话：<?php echo $order_info['senderphone']; ?></div>
-                <div>寄件地址：<?php echo $order_info['senderaddress']; ?></div>
-                <div>身份证：<?php echo $order_info['code']; ?></div>
-            </li>
 
-        </ul>
-        <ul style="margin-top:15px; padding-bottom:5px; width:300px; float:left;">
-            <li>
-                <div>支付单号：<?php echo $order_info['order_sn']; ?></div>
-                <div>订单编号：<?php echo $order_info['pay_sn']; ?></div>
-                <div>创建时间：{$order_info['addtime']|date='Y-m-d i:m:s',###}</div>
-                <div>最新修改时间：{$order_info['utime']|date='Y-m-d i:m:s',###}</div>
-
-            </li>
-        </ul>
-        <ul style="margin-top:15px; padding-bottom:5px; width:100px; float:left;">
-            <li>
-                <div><?php echo $order_info['price']; ?></div>
-            </li>
-        </ul>
-        <ul style="margin-top:15px; padding-bottom:5px; width:100px; float:left;">
-            <li>
-                <if condition="!empty($order_info['imgUrls'])">
-                <volist name='$order_info["imgUrls"]' id="img">
-                    <div><img src="{$img}"/></div>
-                </volist>
-                </if>
-            </li>
-        </ul>
-    </div>
 
     <div>
 
