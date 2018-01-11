@@ -61,7 +61,7 @@
     <br>
 
     <div style="border-bottom:1px solid #b9c9d6;">
-        <ul style="margin-top:15px;  padding-bottom:5px; width:300px; float:left;">
+        <ul style="margin-top:15px;  padding-bottom:5px; width:400px; float:left;">
             <li style="padding-top:5px;">
                 <div>收货人：<?php echo $order_info['receiver']; ?></div>
                 <div>联系电话：<?php echo $order_info['tel']; ?></div>
@@ -86,12 +86,12 @@
 
             </li>
         </ul>
-        <ul style="margin-top:15px; padding-bottom:5px; width:200px; float:left;">
+        <ul style="margin-top:15px; padding-bottom:5px; width:100px; float:left;">
             <li>
                 <div><?php echo $order_info['price']; ?></div>
             </li>
         </ul>
-        <ul style="margin-top:15px; padding-bottom:5px; width:200px; float:left;">
+        <ul style="margin-top:15px; padding-bottom:5px; width:100px; float:left;">
             <li>
                 <if condition="!empty($order_info['imgUrls'])">
                 <volist name='$order_info["imgUrls"]' id="img">
