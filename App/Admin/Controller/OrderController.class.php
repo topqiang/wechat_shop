@@ -160,7 +160,6 @@ class OrderController extends PublicController{
 			$imgUrls = explode(",", $order_info['imgurls']);
 			$order_info['imgUrls'] = $imgUrls;
 		}
-		dump($order_info);
 		$this->assign('order_info',$order_info);
 		$this->display();
 	}
