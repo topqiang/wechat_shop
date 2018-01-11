@@ -151,28 +151,12 @@ class OrderController extends PublicController{
 
 		//根据订单id获取订单数据还有商品信息
 		$order_info = $this->order->where('id='.intval($order_id))->find();
-		$order_pro = $this->order_product->where('order_id='.intval($order_id))->select();
-		if (!$order_info || !$order_pro) {
+		
+		if (!$order_info) {
 			$this->error('订单信息错误.');
 		}
-		foreach ($order_pro as $k => $v) {
-			$data=array();
-			$data = unserialize($v['pro_guide']);
-			if ($data) {
-				$order_pro[$k]['g_name'] = $data['gname'];
-			}else{
-				$order_pro[$k]['g_name'] = '无';
-			}
-		}
-
-		$post_info = array();
-		if (intval($order_info['post'])) {
-			$post_info = M('post')->where('id='.intval($order_info['post']))->find();
-		}
 		
-		$this->assign('post_info',$post_info);
 		$this->assign('order_info',$order_info);
-		$this->assign('order_pro',$order_pro);
 		$this->display();
 	}
 
