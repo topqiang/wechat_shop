@@ -38,23 +38,23 @@
         <thead>
 
         <tr class="text-c">
-            <th width="150">产品名称</th>
-            <th width="40">产品价格</th>
-            <th width="40">数量</th>
+            <th width="150">收件人信息</th>
+            <th width="40">寄件人信息</th>
+            <th width="40">订单信息</th>
             <th width="40">总价</th>
-            <th width="60">产品属性</th>
+            <th width="60">产品信息</th>
         </tr>
         </thead>
 
 
         <volist name='order_pro' id="pro">
-            <tr id="concent_tr_{$pro.id}" class="text-c">
+            <!--<tr id="concent_tr_{$pro.id}" class="text-c">
                 <td>{$pro.name}</td>
                 <td>￥ {$pro.price}</td>
                 <td>{$pro.num}</td>
                 <td><font style="color:#c00;">￥ <?php echo number_format($pro['price']*$pro['num'],2); ?></font></td>
                 <td>{$pro.pro_buff}</td>
-            </tr>
+            </tr>-->
         </volist>
     </table>
 
@@ -62,72 +62,58 @@
 
     <div style="border-bottom:1px solid #b9c9d6;">
         <ul style="margin-top:15px;  padding-bottom:5px; width:500px; float:left;">
-            <li style="font-size:15px; color:#000;">收货地址信息：</li>
             <li style="padding-top:5px;">
                 <div>收货人：<?php echo $order_info['receiver']; ?></div>
                 <div>联系电话：<?php echo $order_info['tel']; ?></div>
-                <div>邮政编码：<?php echo $order_info['code']; ?></div>
                 <div>收货地址：<?php echo $order_info['address_xq']; ?></div>
             </li>
         </ul>
         <ul style="margin-top:15px; padding-bottom:5px; width:300px; float:left;">
-            <li style="font-size:15px; color:#000;">买家留言：</li>
-            <li style="padding:5px 0 0 0; padding-top:5px; color:#090; font-size:14px;">
-                <?php echo $order_info['remark']; ?>
+            <li style="padding-top:5px;">
+                <div>寄件人：<?php echo $order_info['sendername']; ?></div>
+                <div>联系电话：<?php echo $order_info['senderphone']; ?></div>
+                <div>寄件地址：<?php echo $order_info['senderaddress']; ?></div>
+                <div>身份证：<?php echo $order_info['code']; ?></div>
             </li>
-            <li style="font-size:15px; color:#000;">邮费信息：</li>
-            <li style="padding:5px 0 0 0; color:#090; font-size:14px;">
-                <?php if ($post_info) {
-             	echo $post_info['price']."（".$post_info['name']."）"."<br />".$order_info['post_remark'];
-                }else {
-                echo "卖家包邮";
-                } ?>
+
+        </ul>
+        <ul style="margin-top:15px; padding-bottom:5px; width:300px; float:left;">
+            <li>
+                <div>支付单号：<?php echo $order_info['order_sn']; ?></div>
+                <div>订单编号：<?php echo $order_info['pay_sn']; ?></div>
+                <div>创建时间：{$order_info['addtime']|date='Y-m-d i:m:s',###}</div>
+                <div>最新修改时间：{$order_info['utime']|date='Y-m-d i:m:s',###}</div>
+
             </li>
         </ul>
         <ul style="margin-top:15px; padding-bottom:5px; width:300px; float:left;">
-            <li style="font-size:15px; color:#000;">物流信息：</li>
             <li>
-                暂无
+                <div><?php echo $order_info['price']; ?></div>
+            </li>
+        </ul>
+        <ul style="margin-top:15px; padding-bottom:5px; width:300px; float:left;">
+            <li>
+                <if condition="!empty($order_info['imgUrls'])">
+                <volist name='$order_info["imgUrls"]' id="img">
+                    <div><img src="{$img}"/></div>
+                </volist>
+                </if>
             </li>
         </ul>
     </div>
 
     <div>
-    <div class="ord_show_5">
 
-        <br>
-        <div style="color:#c00; line-height:20px;font-size: 14px">发送待收货短信通知，要求订单状态必须为“待收货”,表示卖家已经发货。</div>
-        发货快递：<input id="kuaidi_name" value="<?php echo $order_info['kuaidi_name'];?>" />
-        <br>
-        快递单号：<input id="kuaidi_num" value="<?php echo $order_info['kuaidi_num'];?>"/>
-
-        <br>
-
-                状态修改：
-                <select id="zt_order_update">
-                    <option value="">全部状态</option>
-                    <?php foreach ($order_status as $key => $val) { ?>
-                    <option value="<?php echo $key; ?>" <?php if($order_info['status']==$key) { ?>selected="selected"<?php } ?> >- <?php echo $val; ?></option>
-                    <?php } ?>
-                </select>
-        <br>
-            <font>订单价格:</font> ￥ <?php echo number_format($order_info['price'],2); ?>
-
-        <br><br>
-        <input type="button" value="提交" style="" onclick="sms_message()" class="btn btn-success"/>
-        <br>
-        <input type="hidden" value="<?php echo $order_info['status']; ?>" name="o_status" id="o_status">
-    </div>
     </div>
 
 
 
     <?php if($order_info['back']>0){ ?>
-    <div class="ord_show_1">
+    <!--<div class="ord_show_1">
         <div class="ord_show_6" style="float:left;margin-top:10px">
             退款原因：<span style="color:#c00;"><?php echo $order_info['back_remark'];?></span>
         </div>
-    </div>
+    </div>-->
     <?php } ?>
 
 
