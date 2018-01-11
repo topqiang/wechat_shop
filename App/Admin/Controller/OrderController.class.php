@@ -32,14 +32,13 @@ class OrderController extends PublicController{
 			$shop_id = intval($_REQUEST['shop_id']);
 		}
 		
-		$pay_type = trim($_REQUEST['pay_type']);//支付类型
-		$pay_status = intval($_REQUEST['pay_status']); //订单状态
+		$pay_type = trim($_REQUEST['type']);//支付类型
+		$status = intval($_REQUEST['status']); //订单状态
 		$start_time = intval(strtotime($_REQUEST['start_time'])); //订单状态
 		$end_time = intval(strtotime($_REQUEST['end_time'])); //订单状态
 		//构建搜索条件
 		$condition = array();
-		$condition['del'] = 0; 
-		$where = '1=1 AND del=0';
+		$where = '1=1';
 		//根据支付类型搜索
 		if ($pay_type) {
 			$condition['type'] = $pay_type;
@@ -48,19 +47,12 @@ class OrderController extends PublicController{
 			$this->assign('pay_type',$pay_type);
 		}
 		//根据订单状态搜索
-		if ($pay_status) {
-			if ($pay_status<10) {
-				//小于10的为退款
-				$condition['back'] = $pay_status;
-				$where .=' AND back='.intval($pay_status);
-			}else{
-				//大于10的为正常订单
-				$condition['status'] = $pay_status;
-				$where .=' AND status='.intval($pay_status);
-			}
+		if ($status) {
+				$condition['status'] = $status;
+				$where .=' AND status='.intval($status);
 			
 			//搜索内容输出
-			$this->assign('pay_status',$pay_status);
+			$this->assign('status',$status);
 		}
 		//根据下单时间搜索
 		if ($start_time) {
