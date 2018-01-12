@@ -289,9 +289,9 @@ class PaymentController extends PublicController {
     //***********************************
     public function payment(){
     	$uid =  $_POST['uid'];
-        $senderName =  $_POST['senderName'];
-        $senderPhone =  $_POST['senderPhone'];
-        $senderAddress =  $_POST['senderAddress'];
+        // $senderName =  $_POST['senderName'];
+        // $senderPhone =  $_POST['senderPhone'];
+        // $senderAddress =  $_POST['senderAddress'];
         $receiverName =  $_POST['receiverName'];
         $receiverPhone =  $_POST['receiverPhone'];
         $receiverAddress =  $_POST['receiverAddress'];
@@ -307,9 +307,9 @@ class PaymentController extends PublicController {
 		$data['address_xq']=$receiverAddress;
 		$data['code']=$idNumber;
 		$data['pay_sn']=$orderId;
-		$data['senderName']=$senderName;
-		$data['senderPhone']=$senderPhone;
-		$data['senderAddress']=$senderAddress;
+		// $data['senderName']=$senderName;
+		// $data['senderPhone']=$senderPhone;
+		// $data['senderAddress']=$senderAddress;
 		$data['price']=$price;
 		$data['order_type']=1;
 		$data['imgUrls']=$imgUrls;

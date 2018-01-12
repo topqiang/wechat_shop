@@ -70,8 +70,9 @@
                 <ul style="margin-top:15px; padding-bottom:5px; float:left;">
                     <li style="padding-top:5px;">
                         <div>寄件人：<?php echo $order_info['sendername']; ?></div>
-                        <div>联系电话：<?php echo $order_info['senderphone']; ?></div>
-                        <div>寄件地址：<?php echo $order_info['senderaddress']; ?></div>
+                        <!--<div>联系电话：<?php echo $order_info['senderphone']; ?></div>
+                        <div>寄件地址：<?php echo $order_info['senderaddress']; ?></div>-->
+                        <div>订单编号：<?php echo $order_info['pay_sn']; ?></div>
                         <div>身份证：<?php echo $order_info['code']; ?></div>
                     </li>
                 </ul>
@@ -80,7 +81,6 @@
                 <ul style="margin-top:15px; padding-bottom:5px; float:left;">
                     <li>
                         <div>支付单号：<?php echo $order_info['order_sn']; ?></div>
-                        <div>订单编号：<?php echo $order_info['pay_sn']; ?></div>
                         <div>创建时间：{$order_info['addtime']|date='Y-m-d i:m:s',###}</div>
                         <div>最新修改时间：{$order_info['utime']|date='Y-m-d i:m:s',###}</div>
 
